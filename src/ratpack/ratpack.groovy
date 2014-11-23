@@ -6,7 +6,7 @@ import static ratpack.jackson.Jackson.json
 import static ratpack.groovy.Groovy.*
 import static ratpack.websocket.WebSockets.websocket
 
-import offtopic
+import offtopic.curator.CuratorPool
 
 ratpack {
     bindings {
@@ -15,6 +15,16 @@ ratpack {
     }
     handlers {
         get {
+            curator = null
+            try {
+                curator = CuratorPool.instance.borrowObject()
+                println curator.client.getChildren().forPath('/')
+            }
+            finally {
+                if (curator != null) {
+                    CuratorPool.instance.returnObject(curator)
+                }
+            }
             render 'offtopic!'
         }
 

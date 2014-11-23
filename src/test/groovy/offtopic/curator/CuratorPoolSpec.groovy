@@ -1,4 +1,4 @@
-package offtopic
+package offtopic.curator
 
 import spock.lang.Specification
 
