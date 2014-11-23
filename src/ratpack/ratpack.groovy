@@ -6,6 +6,8 @@ import static ratpack.jackson.Jackson.json
 import static ratpack.groovy.Groovy.*
 import static ratpack.websocket.WebSockets.websocket
 
+import offtopic
+
 ratpack {
     bindings {
         add new HandlebarsModule()
