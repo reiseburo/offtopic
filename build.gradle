@@ -1,0 +1,18 @@
+plugins {
+    id "io.ratpack.ratpack-groovy" version "0.9.10"
+}
+
+apply plugin: 'groovy'
+
+repositories {
+    jcenter()
+    mavenLocal()
+}
+
+dependencies {
+    compile 'io.ratpack:ratpack-handlebars:0.9.10+'
+    compile 'io.ratpack:ratpack-jackson:0.9.10+'
+    compile 'io.ratpack:ratpack-codahale-metrics:0.9.10+'
+
+    testCompile 'org.spockframework:spock-core:1.0-groovy-2.+'
+}
