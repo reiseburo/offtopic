@@ -1,18 +1,41 @@
+////////////////////////////////////////////////////////////////////////////////
+//  PLUGIN CONFIGURATION
+////////////////////////////////////////////////////////////////////////////////
 plugins {
     id "io.ratpack.ratpack-groovy" version "0.9.10"
 }
 
 apply plugin: 'groovy'
+////////////////////////////////////////////////////////////////////////////////
 
+
+group = 'offtopic'
+description =' Offtopic is a simple web application built with Ratpack for inspecting and consuming events from Kafka.'
+sourceCompatibility = '1.7'
+
+
+////////////////////////////////////////////////////////////////////////////////
+//  DEPENDENCY AND REPOSITORY MANAGEMENT
+////////////////////////////////////////////////////////////////////////////////
 repositories {
-    jcenter()
     mavenLocal()
+
+    jcenter()
+    mavenCentral()
 }
 
 dependencies {
     compile 'io.ratpack:ratpack-handlebars:0.9.10+'
     compile 'io.ratpack:ratpack-jackson:0.9.10+'
     compile 'io.ratpack:ratpack-codahale-metrics:0.9.10+'
+    compile localGroovy()
 
-    testCompile 'org.spockframework:spock-core:1.0-groovy-2.+'
+    /* Needed for discovering brokers and all kinds of other things in
+     * Zookeeeper
+     */
+    compile 'org.apache.curator:curator-framework:2.7.0+'
+
+    testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
 }
+
+////////////////////////////////////////////////////////////////////////////////
