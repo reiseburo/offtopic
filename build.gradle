@@ -36,6 +36,8 @@ dependencies {
     compile 'org.apache.curator:curator-framework:2.7.0+'
     compile 'org.apache.commons:commons-pool2:2.2+'
 
+    compile 'org.apache.kafka:kafka_2.10:0.8.1.1+'
+
     testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
 }
 ////////////////////////////////////////////////////////////////////////////////
