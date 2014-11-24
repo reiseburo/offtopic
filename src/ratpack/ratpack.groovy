@@ -51,11 +51,11 @@ ratpack {
             websocket(ctx) { ws ->
                 println "Connected ${ws} ${subscriber}"
                 subscriber.callback = { msg ->
-                    println "calledback ${msg}"
+                    println "called back with: ${msg}"
                     ws.send(msg)
+                    println "sent message"
                 }
                 runner.start()
-                println "lalala"
             } connect { sock ->
                 sock.onClose {
                     println "closing up ${subscriber}"
