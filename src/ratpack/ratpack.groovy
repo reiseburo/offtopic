@@ -6,9 +6,7 @@ import static ratpack.jackson.Jackson.json
 import static ratpack.groovy.Groovy.*
 import static ratpack.websocket.WebSockets.websocket
 
-import groovy.json.*
-
-import offtopic.curator.CuratorPool
+import offtopic.KafkaService
 
 ratpack {
     bindings {
@@ -20,23 +18,11 @@ ratpack {
             render 'offtopic!'
         }
 
-        get('brokers') {
-            brokers = new ArrayList()
-            curator = null
+        get('topics') {
+        }
 
-            try {
-                curator = CuratorPool.instance.borrowObject()
-                JsonSlurper parser = new JsonSlurper()
-                curator.client.getChildren().forPath('/brokers/ids').each { String id ->
-                    // Pulling this into a String buffer since parse(byte[]) is
-                    // throwing a stackoverflow error
-                    buffer = new String(curator.client.getData().forPath("/brokers/ids/${id}"))
-                    brokers.add(parser.parseText(buffer))
-                }
-            }
-            finally {
-                CuratorPool.instance.returnObject(curator)
-            }
+        get('brokers') {
+            brokers = KafkaService.fetchBrokers()
 
             if (request.headers.get('Content-Type') == 'application/json') {
                 render(json(brokers))
