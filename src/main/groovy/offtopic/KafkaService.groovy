@@ -27,7 +27,15 @@ class KafkaService {
         return brokers
     }
 
-    public static void withCurator(Closure closure) {
+    public static ArrayList fetchTopics() {
+        ArrayList brokers = null
+        withCurator { c ->
+            brokers = c.getChildren().forPath(TOPICS_PATH)
+        }
+        return brokers
+    }
+
+    private static void withCurator(Closure closure) {
         def curator = null
         try {
             curator = CuratorPool.instance.borrowObject()

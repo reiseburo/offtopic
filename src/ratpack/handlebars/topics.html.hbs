@@ -1,0 +1,15 @@
+{{> header}}
+
+<ul>
+    {{#each topics}}
+    <li>
+        <strong>
+            <a href="/topics/{{this}}">
+                {{this}}
+            </a>
+        </strong>
+    </li>
+    {{/each}}
+</ul>
+
+{{> footer}}

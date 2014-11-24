@@ -19,6 +19,19 @@ ratpack {
         }
 
         get('topics') {
+            topics = KafkaService.fetchTopics()
+            println topics
+
+            if (request.headers.get('Content-Type') == 'application/json') {
+                render(json(topics))
+            }
+            else {
+                render handlebarsTemplate('topics.html', topics: topics)
+            }
+        }
+
+        get('topics/:name') {
+            render "Fetching info for ${pathTokens.name}"
         }
 
         get('brokers') {
