@@ -12,8 +12,14 @@ function watchTopic(name) {
             };
             window.ws.onmessage = function(event) {
                 console.log(event);
-                var messages = $('#messages')
-                messages.prepend("<div class='list-group-item'>" + event.data + "</div>");
+                var data = $.parseJSON(event.data);
+                var messages = $('#messages');
+                var el_id = Math.floor(Math.random() * 1000000);
+                var el = "<div id='" + el_id + "' class='list-group-item'>" + data.raw + "<br/><div id='" +  el_id + "_b64' style='display:none;'><pre>" + data.b64 + "</pre></div>";
+                messages.prepend(el);
+                $("#" + el_id).click(function(ev) {
+                    $("#"+el_id+'_b64').show();
+                });
 
                 // Let's only keep the last 25
                 if (messages.children().size() > 25) {

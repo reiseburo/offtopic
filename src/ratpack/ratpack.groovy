@@ -52,7 +52,8 @@ ratpack {
                 println "Connected ${ws} ${subscriber}"
                 subscriber.callback = { msg ->
                     println "called back with: ${msg}"
-                    ws.send(msg)
+                    ws.send(groovy.json.JsonOutput.toJson(['raw' : new String(msg),
+                            'b64' : msg.encodeBase64().toString()]))
                     println "sent message"
                 }
                 runner.start()

@@ -45,8 +45,7 @@ class KafkaSubscriber {
         consumerMap.get(this.topic).each { stream ->
             def iterator = stream.iterator()
             while (iterator.hasNext()) {
-                def message = iterator.next().message()
-                this.callback.call(new String(message))
+                this.callback.call(iterator.next().message())
             }
         }
     }
