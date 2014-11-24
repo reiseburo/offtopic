@@ -8,6 +8,7 @@ function watchTopic(name) {
 
             window.ws.onopen = function(event) {
                 console.log("WebSocket opened!");
+                $('.progress-bar').addClass('active');
             };
             window.ws.onmessage = function(event) {
                 console.log(event);
@@ -20,6 +21,7 @@ function watchTopic(name) {
                 }
             };
             window.ws.onclose = function(event) {
+                $('.progress-bar').removeClass('active');
                 var timer = setTimeout(function() {
                     console.log("Retrying connection...");
                     watchTopic(name);
