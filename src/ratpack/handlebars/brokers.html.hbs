@@ -1,0 +1,15 @@
+{{> header}}
+
+<ul>
+    {{#each brokers}}
+    <li>
+        <strong>
+            {{host}}:{{port}}
+        </strong>
+
+        (JMX port: {{jmx_port}})
+    </li>
+    {{/each}}
+</ul>
+
+{{> footer}}

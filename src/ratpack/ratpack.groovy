@@ -6,6 +6,8 @@ import static ratpack.jackson.Jackson.json
 import static ratpack.groovy.Groovy.*
 import static ratpack.websocket.WebSockets.websocket
 
+import groovy.json.*
+
 import offtopic.curator.CuratorPool
 
 ratpack {
@@ -15,17 +17,33 @@ ratpack {
     }
     handlers {
         get {
+            render 'offtopic!'
+        }
+
+        get('brokers') {
+            brokers = new ArrayList()
             curator = null
+
             try {
                 curator = CuratorPool.instance.borrowObject()
-                println curator.client.getChildren().forPath('/')
-            }
-            finally {
-                if (curator != null) {
-                    CuratorPool.instance.returnObject(curator)
+                JsonSlurper parser = new JsonSlurper()
+                curator.client.getChildren().forPath('/brokers/ids').each { String id ->
+                    // Pulling this into a String buffer since parse(byte[]) is
+                    // throwing a stackoverflow error
+                    buffer = new String(curator.client.getData().forPath("/brokers/ids/${id}"))
+                    brokers.add(parser.parseText(buffer))
                 }
             }
-            render 'offtopic!'
+            finally {
+                CuratorPool.instance.returnObject(curator)
+            }
+
+            if (request.headers.get('Content-Type') == 'application/json') {
+                render(json(brokers))
+            }
+            else {
+                render handlebarsTemplate('brokers.html', brokers: brokers)
+            }
         }
 
         /* set up a demo/dummy websocket listener */
