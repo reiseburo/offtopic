@@ -7,6 +7,7 @@ import static ratpack.groovy.Groovy.*
 import static ratpack.websocket.WebSockets.websocket
 
 import offtopic.KafkaService
+import offtopic.KafkaSubscriber
 
 ratpack {
     bindings {
@@ -15,7 +16,7 @@ ratpack {
     }
     handlers {
         get {
-            render 'offtopic!'
+            render handlebarsTemplate('index.html')
         }
 
         get('topics') {
@@ -32,6 +33,38 @@ ratpack {
 
         get('topics/:name') {
             render "Fetching info for ${pathTokens.name}"
+        }
+
+        get('topics/:name/watch') {
+            render handlebarsTemplate('topic-watch.html', name: pathTokens.name)
+        }
+
+        get('topics/:name/websocket') { ctx ->
+            subscriber = new KafkaSubscriber(pathTokens.name)
+            runner = new Thread({
+                subscriber.connect()
+                println "subscriber connected"
+                subscriber.consume()
+                println "consume over!"
+            })
+
+            websocket(ctx) { ws ->
+                println "Connected ${ws} ${subscriber}"
+                subscriber.callback = { msg ->
+                    println "calledback ${msg}"
+                    ws.send(msg)
+                }
+                runner.start()
+                println "lalala"
+            } connect { sock ->
+                sock.onClose {
+                    println "closing up ${subscriber}"
+                    subscriber.shutdown()
+                }
+                sock.onMessage { msg ->
+                    println "client sent ${msg}"
+                }
+            }
         }
 
         get('brokers') {

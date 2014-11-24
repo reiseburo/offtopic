@@ -1,15 +1,25 @@
 {{> header}}
 
-<ul>
-    {{#each topics}}
-    <li>
-        <strong>
-            <a href="/topics/{{this}}">
-                {{this}}
-            </a>
-        </strong>
-    </li>
-    {{/each}}
-</ul>
+<div class="container">
+<div>
+    <ul class="list-group">
+        {{#each topics}}
+        <li class="list-group-item">
+            <strong>
+                <a href="/topics/{{this}}">
+                    {{this}}
+                </a>
+            </strong>
+
+            <form style="display: inline;" action="/topics/{{this}}/watch">
+                <button type="submit" class="btn btn-xs btn-default">
+                    watch
+                </button>
+            </form>
+        </li>
+        {{/each}}
+    </ul>
+    </div>
+</div>
 
 {{> footer}}

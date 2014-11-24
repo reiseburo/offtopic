@@ -1,15 +1,19 @@
 {{> header}}
 
-<ul>
-    {{#each brokers}}
-    <li>
-        <strong>
-            {{host}}:{{port}}
-        </strong>
+<div class="container">
 
-        (JMX port: {{jmx_port}})
-    </li>
-    {{/each}}
-</ul>
+    <ul class="list-group">
+        {{#each brokers}}
+        <li class="list-group-item">
+            <strong>
+                {{host}}:{{port}}
+            </strong>
+
+            (JMX port: {{jmx_port}})
+        </li>
+        {{/each}}
+    </ul>
+
+</div>
 
 {{> footer}}
