@@ -20,4 +20,15 @@ class CuratorPool extends GenericObjectPool<CuratorClient>{
         super(new CuratorClientObjectFactory(zookeepers))
         println "CREATING WITH ${zookeepers}"
     }
+
+    public static void withCurator(Closure closure) {
+        def curator = null
+        try {
+            curator = CuratorPool.instance.borrowObject()
+            closure.call(curator.client)
+        }
+        finally {
+            CuratorPool.instance.returnObject(curator)
+        }
+    }
 }
