@@ -18,7 +18,6 @@ class CuratorPool extends GenericObjectPool<CuratorClient>{
 
     private CuratorPool(String zookeepers) {
         super(new CuratorClientObjectFactory(zookeepers))
-        println "CREATING WITH ${zookeepers}"
     }
 
     public static void withCurator(Closure closure) {

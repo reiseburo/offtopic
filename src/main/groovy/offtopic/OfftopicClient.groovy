@@ -23,7 +23,7 @@ class OfftopicClient {
     }
 
     public void createSubscribersFor(String topicsPattern) {
-        topicsPattern.split("\\+").each { topic ->
+        topicsFrom(topicsPattern).each { topic ->
             if (topic.length() == 0) {
                 return
             }
@@ -56,5 +56,31 @@ class OfftopicClient {
         this.subscribers.each { subscriber ->
             subscriber.shutdown()
         }
+    }
+
+    public ArrayList<String> topicsFrom(String topicsPattern) {
+        ArrayList<String> topics = new ArrayList<String>()
+        topicsPattern.split("\\+").each { topic ->
+            if (topic.length() == 0) {
+                return
+            }
+            if (topic.indexOf('*') >= 0) {
+                topics.addAll(lookupTopicsFor(topicsPattern))
+            }
+            else {
+                topics.add(topic)
+            }
+        }
+        return topics
+    }
+
+    private ArrayList<String> lookupTopicsFor(String topicPattern) {
+        ArrayList<String> topics = new ArrayList<String>()
+        KafkaService.fetchTopics().each { topic ->
+            if (topic =~ topicPattern) {
+                topics.add(topic)
+            }
+        }
+        return topics
     }
 }
