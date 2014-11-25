@@ -44,16 +44,16 @@ ratpack {
         }
 
         get('topics/:name/websocket') { ctx ->
-            println "creating thingies"
             def client = new OfftopicClient(Configuration.instance)
-            println "client: ${client}"
+            def grepper = null
 
             websocket(ctx) { ws ->
                 println "Connected ${ws}"
                 client.onMessageCallback = { m ->
-                    println "called back with ${m}"
-                    ws.send(groovy.json.JsonOutput.toJson(m))
-                    println "sent message"
+                    println "called back with ${m} (grep: ${grepper})"
+                    if ((grepper == null) || (m.raw =~ grepper)) {
+                        ws.send(groovy.json.JsonOutput.toJson(m))
+                    }
                 }
                 client.createSubscribersFor(pathTokens.name)
                 print "subscribers created for ${pathTokens.name}"
@@ -63,7 +63,7 @@ ratpack {
                     client.shutdown()
                 }
                 sock.onMessage { msg ->
-                    println "client sent ${msg}"
+                    grepper = msg.text
                 }
             }
         }
