@@ -31,13 +31,17 @@ function watchTopic(name) {
             };
             window.ws.onclose = function(event) {
                 $('.progress-bar').removeClass('active');
-                var timer = setTimeout(function() {
-                    console.log("Retrying connection...");
-                    watchTopic(name);
-                    if (window.ws.readyState == WebSocket.OPEN) {
-                        clearTimeout(timer);
-                    }
-                }, 1000);
+
+                // If our stop button is still visible, we didn't stop manually
+                if ($('#stop:visible').size() > 0) {
+                    var timer = setTimeout(function() {
+                        console.log("Retrying connection...");
+                        watchTopic(name);
+                        if (window.ws.readyState == WebSocket.OPEN) {
+                            clearTimeout(timer);
+                        }
+                    }, 1000);
+                }
             };
         }
     }
