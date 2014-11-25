@@ -1,18 +1,21 @@
 {{> header}}
 
 <div class="container">
-    <div class="container">
-        <div class="progress" style="width: 100px;">
-        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-            <span class="sr-only">Loading..</span>
-        </div>
-        </div>
-
-        <div>
+    <div class="row">
+        <div class="col-md-8">
             <form id="grep" role="form">
                 <input id="grepfield" class="form-control" type="search" placeholder="grep for.." size="20"/>
             </form>
         </div>
+
+        <div class="col-md-4">
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                    <span class="sr-only">Loading..</span>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <div id="messages">
