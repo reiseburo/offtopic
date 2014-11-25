@@ -1,0 +1,16 @@
+body {
+    padding-top: 50px;
+}
+
+.multipass-body {
+    font-size: 1.2em;
+}
+
+.multipass-actions {
+    margin-top: 10px;
+}
+
+.multipass-label {
+    margin-left: 3px;
+    margin-right: 3px;
+}

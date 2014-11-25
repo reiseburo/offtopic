@@ -1,25 +1,47 @@
 {{> header}}
 
 <div class="container">
-<div>
+
+    <div class="multipass-panel panel panel-warning" style="display:none;">
+        <div class="panel-heading">
+            <h3 class="panel-title">Multipass</h3>
+        </div>
+        <div class="multipass-body panel-body">
+            <div class="multipass-actions">
+                <button class="go-multipass btn btn-default">
+                    Use Multipass!
+                </button> 
+            </div>
+        </div>
+    </div>
+
+
     <ul class="list-group">
         {{#each topics}}
         <li class="list-group-item">
+            <button data-topic="{{this}}" class="add-multipass btn btn-xs btn-default">
+                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true">
+                </span>
+                multipass
+            </button>
+
+            <form style="display: inline;" action="/topics/{{this}}/watch">
+                <button type="submit" class="btn btn-xs btn-default">
+                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true">
+                    </span>
+                    watch
+                </button>
+            </form>
+
             <strong>
                 <a href="/topics/{{this}}">
                     {{this}}
                 </a>
             </strong>
-
-            <form style="display: inline;" action="/topics/{{this}}/watch">
-                <button type="submit" class="btn btn-xs btn-default">
-                    watch
-                </button>
-            </form>
         </li>
         {{/each}}
     </ul>
-    </div>
 </div>
 
+<script src="/js/multipass.js"></script>
 {{> footer}}
