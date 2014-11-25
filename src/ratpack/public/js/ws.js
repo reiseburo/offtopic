@@ -17,15 +17,15 @@ function watchTopic(name) {
                 var el_id = Math.floor(Math.random() * 1000000);
                 var el = ["<div id='" + el_id + "' class='list-group-item'>",
                           "<code>" + data.topic + "</code>",
-                          data.raw + "<br/><div id='" +  el_id,
-                          "_b64' style='display:none;'><pre>" + data.b64 + "</pre></div>"].join("\n");
+                          data.raw + "<br/><div id='" +  el_id + "_b64'",
+                          "style='display:none;'><pre>" + data.b64 + "</pre></div>"].join("\n");
                 messages.prepend(el);
                 $("#" + el_id).click(function(ev) {
                     $("#"+el_id+'_b64').toggle();
                 });
 
-                // Let's only keep the last 25
-                if (messages.children().size() > 25) {
+                // Let's only keep the last 50
+                if (messages.children().size() > 50) {
                     messages.children().last().remove();
                 }
             };
