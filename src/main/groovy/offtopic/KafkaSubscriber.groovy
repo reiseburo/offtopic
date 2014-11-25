@@ -49,7 +49,12 @@ class KafkaSubscriber {
         consumerMap.get(this.topic).each { stream ->
             def iterator = stream.iterator()
             while (iterator.hasNext()) {
-                this.callback.call(iterator.next())
+                def message = iterator.next()
+                def data = ['raw' : new String(message.message()),
+                            'b64' : message.message().encodeBase64().toString(),
+                            'topic' : message.topic(),
+                            'tstamp' : System.currentTimeMillis()]
+                this.callback.call(data)
             }
         }
     }

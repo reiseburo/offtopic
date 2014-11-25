@@ -36,7 +36,6 @@ ratpack {
         }
 
         get('topics/:name') {
-            println offtopic.Configuration.instance['offtopic.zookeepers']
             render "Fetching info for ${pathTokens.name}"
         }
 
@@ -45,32 +44,23 @@ ratpack {
         }
 
         get('topics/:name/websocket') { ctx ->
-            client = new OfftopicClient()
-            subscriber = new KafkaSubscriber(Configuration.instance.zookeepers,
-                                             pathTokens.name,
-                                             "offtopic-${client.clientId}")
-            runner = new Thread({
-                subscriber.connect()
-                println "subscriber connected"
-                subscriber.consume()
-                println "consume over!"
-            })
+            println "creating thingies"
+            def client = new OfftopicClient(Configuration.instance)
+            println "client: ${client}"
 
             websocket(ctx) { ws ->
-                println "Connected ${ws} ${subscriber}"
-                subscriber.callback = { msg ->
-                    println "called back with: ${msg}"
-                    ws.send(groovy.json.JsonOutput.toJson(['raw' : new String(msg.message()),
-                            'b64' : msg.message().encodeBase64().toString(),
-                            'topic' : msg.topic(),
-                            'tstamp' : System.currentTimeMillis()]))
+                println "Connected ${ws}"
+                client.onMessageCallback = { m ->
+                    println "called back with ${m}"
+                    ws.send(groovy.json.JsonOutput.toJson(m))
                     println "sent message"
                 }
-                runner.start()
+                client.createSubscribersFor(pathTokens.name)
+                print "subscribers created for ${pathTokens.name}"
+                client.startSubscribers()
             } connect { sock ->
                 sock.onClose {
-                    println "closing up ${subscriber}"
-                    subscriber.shutdown()
+                    client.shutdown()
                 }
                 sock.onMessage { msg ->
                     println "client sent ${msg}"
