@@ -15,7 +15,10 @@ function watchTopic(name) {
                 var data = $.parseJSON(event.data);
                 var messages = $('#messages');
                 var el_id = Math.floor(Math.random() * 1000000);
-                var el = "<div id='" + el_id + "' class='list-group-item'>" + data.raw + "<br/><div id='" +  el_id + "_b64' style='display:none;'><pre>" + data.b64 + "</pre></div>";
+                var el = ["<div id='" + el_id + "' class='list-group-item'>",
+                          "<code>" + data.topic + "</code>",
+                          data.raw + "<br/><div id='" +  el_id,
+                          "_b64' style='display:none;'><pre>" + data.b64 + "</pre></div>"].join("\n");
                 messages.prepend(el);
                 $("#" + el_id).click(function(ev) {
                     $("#"+el_id+'_b64').toggle();
