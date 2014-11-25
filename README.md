@@ -20,6 +20,6 @@ Kafka cluster.
  * **Watch**: From the `/topics` page clicking the "watch" button will set up a
    WebSockets-based stream of events straight from Kafka to your browser
  * **Multipass**: From the `/topics` page you can select multiple topics to
-   watch at once
+   watch at once ([screenshot of multipass in action](http://strongspace.com/rtyler/public/offtopic-usemultipass-20141125.png))
  * **Binary data support**: Clicking on a message row in the "watch" view will
    drop down a base64-encoded version of the message data
