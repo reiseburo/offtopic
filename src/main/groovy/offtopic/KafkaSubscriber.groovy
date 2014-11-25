@@ -14,9 +14,13 @@ class KafkaSubscriber {
     String topic
     private Closure callback
     private ConsumerConnector consumer
+    private String zookeepers
+    private String consumerId
 
-    public KafkaSubscriber(String topicName) {
+    public KafkaSubscriber(String zks, String topicName, String consumerId) {
         this.topic = topicName
+        this.zookeepers = zks
+        this.consumerId = consumerId
     }
 
     public void setCallback(Closure theCallback) {
@@ -25,7 +29,7 @@ class KafkaSubscriber {
 
     public void connect() {
         this.consumer = kafka.consumer.Consumer.createJavaConsumerConnector(
-                        createConsumerConfig('localhost:2181', 'offtopic-spock-test'))
+                        createConsumerConfig(this.zookeepers, this.consumerId))
     }
 
     public void shutdown() {
@@ -45,7 +49,7 @@ class KafkaSubscriber {
         consumerMap.get(this.topic).each { stream ->
             def iterator = stream.iterator()
             while (iterator.hasNext()) {
-                this.callback.call(iterator.next().message())
+                this.callback.call(iterator.next())
             }
         }
     }

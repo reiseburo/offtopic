@@ -8,9 +8,13 @@ import static ratpack.websocket.WebSockets.websocket
 
 import offtopic.KafkaService
 import offtopic.KafkaSubscriber
+import offtopic.Configuration
+import offtopic.OfftopicClient
 
 ratpack {
     bindings {
+        offtopic.Configuration.instance.loadDefaults()
+        offtopic.curator.CuratorPool.prepare(Configuration.instance.zookeepers)
         add new HandlebarsModule()
         add new JacksonModule()
     }
@@ -32,6 +36,7 @@ ratpack {
         }
 
         get('topics/:name') {
+            println offtopic.Configuration.instance['offtopic.zookeepers']
             render "Fetching info for ${pathTokens.name}"
         }
 
@@ -40,7 +45,10 @@ ratpack {
         }
 
         get('topics/:name/websocket') { ctx ->
-            subscriber = new KafkaSubscriber(pathTokens.name)
+            client = new OfftopicClient()
+            subscriber = new KafkaSubscriber(Configuration.instance.zookeepers,
+                                             pathTokens.name,
+                                             "offtopic-${client.clientId}")
             runner = new Thread({
                 subscriber.connect()
                 println "subscriber connected"
@@ -52,8 +60,10 @@ ratpack {
                 println "Connected ${ws} ${subscriber}"
                 subscriber.callback = { msg ->
                     println "called back with: ${msg}"
-                    ws.send(groovy.json.JsonOutput.toJson(['raw' : new String(msg),
-                            'b64' : msg.encodeBase64().toString()]))
+                    ws.send(groovy.json.JsonOutput.toJson(['raw' : new String(msg.message()),
+                            'b64' : msg.message().encodeBase64().toString(),
+                            'topic' : msg.topic(),
+                            'tstamp' : System.currentTimeMillis()]))
                     println "sent message"
                 }
                 runner.start()

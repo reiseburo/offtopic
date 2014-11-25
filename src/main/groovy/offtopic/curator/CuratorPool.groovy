@@ -2,10 +2,22 @@ package offtopic.curator
 
 import org.apache.commons.pool2.impl.GenericObjectPool
 
-@Singleton(strict=false)
 class CuratorPool extends GenericObjectPool<CuratorClient>{
-    private CuratorPool() {
-        /** XXX: Figure out how to get ZK from settings */
-        super(new CuratorClientObjectFactory('localhost:2181'))
+    private static CuratorPool instance = null
+
+    public static void prepare(String zookeepers) {
+        this.instance = new CuratorPool(zookeepers)
+    }
+
+    public static CuratorPool getInstance() {
+        if (this.instance == null) {
+            throw new Exception("Cannot access CuratorPool before prepare() has been called")
+        }
+        return this.instance
+    }
+
+    private CuratorPool(String zookeepers) {
+        super(new CuratorClientObjectFactory(zookeepers))
+        println "CREATING WITH ${zookeepers}"
     }
 }

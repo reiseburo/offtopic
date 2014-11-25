@@ -18,7 +18,7 @@ function watchTopic(name) {
                 var el = "<div id='" + el_id + "' class='list-group-item'>" + data.raw + "<br/><div id='" +  el_id + "_b64' style='display:none;'><pre>" + data.b64 + "</pre></div>";
                 messages.prepend(el);
                 $("#" + el_id).click(function(ev) {
-                    $("#"+el_id+'_b64').show();
+                    $("#"+el_id+'_b64').toggle();
                 });
 
                 // Let's only keep the last 25

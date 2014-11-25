@@ -39,6 +39,7 @@ dependencies {
     compile 'org.apache.kafka:kafka_2.10:0.8.1.1+'
 
     testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
+    testCompile 'cglib:cglib-nodep:2.2.+'
 }
 ////////////////////////////////////////////////////////////////////////////////
 
