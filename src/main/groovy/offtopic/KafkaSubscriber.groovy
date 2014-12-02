@@ -4,11 +4,13 @@ import kafka.consumer.ConsumerConfig;
 import kafka.consumer.KafkaStream;
 import kafka.javaapi.consumer.ConsumerConnector;
 import offtopic.curator.CuratorPool
+import groovy.util.logging.Slf4j
 
 /**
  * KafkaSubscriber is a Kafka consumer consumer, largely cribbed from:
  * https://cwiki.apache.org/confluence/display/KAFKA/Consumer+Group+Example
  */
+@Slf4j
 class KafkaSubscriber {
 
     String topic
@@ -38,7 +40,7 @@ class KafkaSubscriber {
 
     public void consume() {
         if (this.consumer == null) {
-            println "no consumer, gtfo"
+            log.warn "no consumer, gtfo"
             return
         }
 

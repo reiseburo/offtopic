@@ -39,11 +39,18 @@ dependencies {
 
     compile 'org.apache.kafka:kafka_2.10:0.8.1.1+'
 
+    compile 'org.slf4j:log4j-over-slf4j:1.7.6'
+    compile 'org.slf4j:slf4j-simple:1.7.6'
+
     testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
     testCompile 'cglib:cglib-nodep:2.2.+'
 }
 ////////////////////////////////////////////////////////////////////////////////
 
+configurations {
+    compile.exclude module: 'log4j'
+    compile.exclude module: 'slf4j-log4j12'
+}
 
 test {
     testLogging {
