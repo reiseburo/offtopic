@@ -1,9 +1,12 @@
 package offtopic
 
+import groovy.util.logging.Slf4j
+
 /**
  * OfftopicClient coordinates the interactions between KafkaSubscriber objects
  * and the websocket interactions
  */
+@Slf4j
 class OfftopicClient {
     public int clientId = 0
 
@@ -44,9 +47,9 @@ class OfftopicClient {
         this.subscribers.each { subscriber ->
             Thread runner = new Thread({
                 subscriber.connect()
-                println "subscriber connected"
+                log.info "subscriber connected"
                 subscriber.consume()
-                println "consume over!"
+                log.info "consume over!"
             })
             runner.start()
         }
