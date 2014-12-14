@@ -1,5 +1,9 @@
 # Offtopic
 
+[![Build Status](https://travis-ci.org/rtyler/offtopic.svg?branch=master)](https://travis-ci.org/rtyler/offtopic)
+[ ![Download](https://api.bintray.com/packages/rtyler/maven/offtopic/images/download.svg) ](https://bintray.com/rtyler/maven/offtopic/_latestVersion)
+
+
 Offtopic is a simple web application built with [Ratpack](http://ratpack.io)
 for inspecting and consuming events from [Kafka](http://kafka.apache.org).
 
