@@ -3,6 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 plugins {
     id "io.ratpack.ratpack-groovy" version "0.9.10"
+    id 'com.jfrog.bintray' version '1.0'
 }
 
 apply plugin: 'groovy'
@@ -53,4 +54,30 @@ test {
     }
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//  RELEASING
+////////////////////////////////////////////////////////////////////////////////
+bintray {
+    user = project.bintrayUser
+    key = project.bintrayKey
+    publish = true
+    dryRun = false
+    configurations = ['archives']
+
+    pkg {
+        userOrg = 'rtyler'
+        repo = 'maven'
+        name = 'offtopic'
+        labels = ['kafka', 'offtopic', 'ratpack', 'groovy']
+
+        version {
+            name = project.version
+            vcsTag = "v${project.version}"
+            desc = project.description
+        }
+    }
+}
+bintrayUpload.dependsOn assemble
+
+////////////////////////////////////////////////////////////////////////////////
 // vim: ft=groovy
