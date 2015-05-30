@@ -1,0 +1,31 @@
+plugins {
+    id 'groovy'
+    id 'application'
+    id 'codenarc'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile "org.codehaus.groovy:groovy:${groovyVersion}"
+    compile "io.dropwizard:dropwizard-core:${dropwizardVersion}"
+
+    testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
+    testCompile 'cglib:cglib-nodep:2.2.+'
+}
+
+test {
+    testLogging {
+        /* we want more test failure information, see:
+         *  <http://mrhaki.blogspot.com/2013/05/gradle-goodness-show-more-information.html>
+         */
+        exceptionFormat = 'full'
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+    }
+}
+
+codenarc {
+    configFile = file("${projectDir}/gradle/codenarc.xml")
+}
