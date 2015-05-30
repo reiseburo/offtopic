@@ -4,12 +4,15 @@ import io.dropwizard.Application
 import io.dropwizard.setup.Bootstrap
 import io.dropwizard.setup.Environment
 
+import groovy.transform.TypeChecked
+
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 /**
  * Primary application instance for Dropwizard
  */
+@TypeChecked
 class OfftopicApp extends Application<OfftopicConfig> {
     /**
      * Primary logger instance for the app
@@ -28,6 +31,8 @@ class OfftopicApp extends Application<OfftopicConfig> {
     @Override
     void run(OfftopicConfig configuration, Environment environment) throws Exception {
         this.logger.info("Starting the Offtopic application")
+
+        environment.healthChecks().register('sanity', new offtopic.health.BasicHealth())
     }
 
     @Override

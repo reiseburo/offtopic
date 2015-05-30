@@ -4,6 +4,9 @@ plugins {
     id 'codenarc'
 }
 
+description = 'Offtopic is for watching Kafka topics'
+mainClassName = 'offtopic.OfftopicApp'
+
 repositories {
     jcenter()
 }
@@ -28,4 +31,8 @@ test {
 
 codenarc {
     configFile = file("${projectDir}/gradle/codenarc.xml")
+}
+
+run {
+    args 'server', 'offtopic.example.yml'
 }
