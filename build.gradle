@@ -1,8 +1,21 @@
-plugins {
-    id 'groovy'
-    id 'application'
-    id 'codenarc'
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "com.github.jengelman.gradle.plugins:shadow:1.2.1"
+        //classpath 'com.prezi.typescript:gradle-typescript-plugin:2.2.5'
+        classpath 'de.richsource.gradle.plugins:typescript-gradle-plugin:1.1'
+
+    }
 }
+apply plugin: 'groovy'
+apply plugin: 'application'
+apply plugin: 'codenarc'
+apply plugin: 'typescript'
+apply plugin: "com.github.johnrengelman.shadow"
 
 description = 'Offtopic is for watching Kafka topics'
 mainClassName = 'offtopic.OfftopicApp'
@@ -13,7 +26,12 @@ repositories {
 
 dependencies {
     compile "org.codehaus.groovy:groovy:${groovyVersion}"
-    compile "io.dropwizard:dropwizard-core:${dropwizardVersion}"
+
+    ['core', 'assets', 'views', 'views-mustache'].each {
+        compile "io.dropwizard:dropwizard-${it}:${dropwizardVersion}"
+    }
+
+    compile 'joda-time:joda-time:2.6+'
 
     testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
     testCompile 'cglib:cglib-nodep:2.2.+'
@@ -36,3 +54,20 @@ codenarc {
 run {
     args 'server', 'offtopic.example.yml'
 }
+
+shadowJar {
+    exclude 'META-INF/*.RSA', 'META-INF/*.DSA'
+    manifest {
+        attributes 'Main-Class' : mainClassName
+    }
+
+    // Only run after we've successfully completed our tests
+    dependsOn check
+}
+assemble.dependsOn shadowJar
+
+compileTypeScript {
+    sourcemap = true
+    out = file("${buildDir}/js/offtopic.js")
+}
+processResources.dependsOn compileTypeScript
