@@ -21,6 +21,7 @@ version = '0.2.0'
 group = 'offtopic'
 description =' Offtopic is a simple web application built with Ratpack for inspecting and consuming events from Kafka.'
 
+defaultTasks 'check', 'assemble'
 
 ////////////////////////////////////////////////////////////////////////////////
 //  DEPENDENCY AND REPOSITORY MANAGEMENT

@@ -1,12 +1,1 @@
-//include 'any', 'sub', 'projects'
-
 rootProject.name = 'offtopic'
-
-def setBuildFile(project) {
-    project.buildFileName = "${project.name}.gradle"
-    project.children.each {
-        setBuildFile(it)
-    }
-}
-
-setBuildFile(rootProject)
