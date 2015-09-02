@@ -5,7 +5,7 @@ import spock.lang.Specification
 class KafkaSubscriberSpec extends Specification {
     def "initializing"() {
         when:
-        def subscriber = new KafkaSubscriber(null, 'spock', null)
+        KafkaSubscriber subscriber = new KafkaSubscriber(null, 'spock', null)
 
         then:
         subscriber instanceof KafkaSubscriber

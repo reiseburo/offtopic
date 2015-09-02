@@ -11,33 +11,32 @@ import groovy.util.logging.Slf4j
  */
 @Slf4j
 class KafkaSubscriber {
-
     String topic
     private Closure callback
     private ConsumerConnector consumer
     private String zookeepers
     private String consumerId
 
-    public KafkaSubscriber(String zks, String topicName, String consumerId) {
+    KafkaSubscriber(String zks, String topicName, String consumerId) {
         this.topic = topicName
         this.zookeepers = zks
         this.consumerId = consumerId
     }
 
-    public void setCallback(Closure theCallback) {
-        this.callback = theCallback
+    void setCallback(Closure theCallback) {
+        callback = theCallback
     }
 
-    public void connect() {
-        this.consumer = kafka.consumer.Consumer.createJavaConsumerConnector(
-                        createConsumerConfig(this.zookeepers, this.consumerId))
+    void connect() {
+        consumer = kafka.consumer.Consumer.createJavaConsumerConnector(
+                        createConsumerConfig(zookeepers, consumerId))
     }
 
-    public void shutdown() {
+    void shutdown() {
         this.consumer?.shutdown()
     }
 
-    public void consume() {
+    void consume() {
         if (this.consumer == null) {
             log.warn "no consumer, gtfo"
             return

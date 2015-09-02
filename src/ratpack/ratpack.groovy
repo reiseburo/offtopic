@@ -1,3 +1,5 @@
+import offtopic.curator.CuratorPool
+import org.apache.curator.framework.CuratorFramework
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import ratpack.handlebars.HandlebarsModule
@@ -28,7 +30,10 @@ ratpack {
         }
 
         get('topics') {
-            topics = KafkaService.fetchTopics()
+            List<String> topics
+            CuratorPool.withCurator { CuratorFramework cf ->
+                topics = KafkaService.fetchTopics(cf)
+            }
 
             if (request.headers.get('Content-Type') == 'application/json') {
                 render(json(topics))
@@ -73,7 +78,10 @@ ratpack {
         }
 
         get('brokers') {
-            brokers = KafkaService.fetchBrokers()
+            List<Map> brokers
+            CuratorPool.withCurator { CuratorFramework cf ->
+                brokers = KafkaService.fetchBrokers(cf)
+            }
 
             if (request.headers.get('Content-Type') == 'application/json') {
                 render(json(brokers))
