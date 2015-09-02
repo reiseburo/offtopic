@@ -16,7 +16,8 @@ function watchTopic(name) {
                 var messages = $('#messages');
                 var el_id = Math.floor(Math.random() * 1000000);
                 var el = ["<div id='" + el_id + "' class='list-group-item'>",
-                          "<code>" + data.topic + "</code>",
+                          "<code>" + data.topic + ":" + data.partition + "</code>",
+                          "<span class='offset'>(offset: " + data.offset + ")</span>",
                           '<pre class="pre-scrollable message-raw">' + data.raw + '</pre>',
                           "<br/><div class='message-b64' id='" +  el_id + "_b64'",
                           "style='display:none;'><pre>" + data.b64 + "</pre></div>"].join("\n");

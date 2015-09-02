@@ -1,9 +1,8 @@
 package offtopic
 
-import kafka.consumer.ConsumerConfig;
-import kafka.consumer.KafkaStream;
-import kafka.javaapi.consumer.ConsumerConnector;
-import offtopic.curator.CuratorPool
+import kafka.consumer.ConsumerConfig
+import kafka.javaapi.consumer.ConsumerConnector
+import kafka.message.MessageAndMetadata
 import groovy.util.logging.Slf4j
 
 /**
@@ -51,9 +50,11 @@ class KafkaSubscriber {
         consumerMap.get(this.topic).each { stream ->
             def iterator = stream.iterator()
             while (iterator.hasNext()) {
-                def message = iterator.next()
-                def data = ['raw' : new String(message.message()),
+                MessageAndMetadata message = iterator.next()
+                Map data = ['raw' : new String(message.message()),
                             'b64' : message.message().encodeBase64().toString(),
+                            'offset' : message.offset,
+                            'partition' : message.partition,
                             'topic' : message.topic(),
                             'tstamp' : System.currentTimeMillis()]
                 this.callback.call(data)

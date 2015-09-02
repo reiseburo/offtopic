@@ -17,3 +17,8 @@ body {
 
 .message-raw {
 }
+
+.offset {
+    font-family: monospace;
+    font-size: 0.7em;
+}
