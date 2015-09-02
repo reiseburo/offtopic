@@ -40,6 +40,7 @@
         <code>{{topic}}:{{partition}}</code>
         <span class="offset">(offset: {{offset}})</span>
         <pre class="pre-scrollable message-raw">{{raw}}</pre>
+        <span class="message-show-b64"><a href="#" onClick="$('#{{message_id}}_b64').toggle();">toggle base64</a></span>
         <br/>
         <div class="message-b64" id="{{message_id}}_b64" style="display: none;">
             <pre class="pre-scrollable message-b64">{{b64}}</pre>

@@ -27,10 +27,6 @@ function watchTopic(name) {
                     timestamp: moment(data.tstamp, 'x').format('MMM Do YYYY, H:mm:ss')
                 }));
 
-                $("#" + el_id).click(function(ev) {
-                    $("#"+el_id+'_b64').toggle();
-                });
-
                 // Let's only keep the last 50
                 if (messages.children().size() > 50) {
                     messages.children().last().remove();

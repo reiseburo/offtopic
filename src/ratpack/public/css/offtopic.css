@@ -26,3 +26,7 @@ body {
 .message-timestamp {
     float: right;
 }
+
+.message-show-b64 {
+    font-size: 0.7em;
+}
