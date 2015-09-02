@@ -8,24 +8,24 @@ import groovy.util.logging.Slf4j
  */
 @Slf4j
 class OfftopicClient {
-    public int clientId = 0
+    int clientId = 0
 
-    private Closure messageCallback = null
-    private String topicsPattern = null
-    private ArrayList<KafkaSubscriber> subscribers = null
-    private Configuration config = null
+    private Closure messageCallback
+    private String topicsPattern
+    private List<KafkaSubscriber> subscribers
+    private Configuration config
 
-    public OfftopicClient(Configuration configuration) {
+     OfftopicClient(Configuration configuration) {
         this.clientId = new Random().nextInt()
         this.config = configuration
         this.subscribers = new ArrayList<KafkaSubscriber>()
-    }
+     }
 
-    public ArrayList<KafkaSubscriber> getSubscribers() {
+    List<KafkaSubscriber> getSubscribers() {
         return this.subscribers
     }
 
-    public void createSubscribersFor(String topicsPattern) {
+    void createSubscribersFor(String topicsPattern) {
         topicsFrom(topicsPattern).each { topic ->
             if (topic.length() == 0) {
                 return
@@ -39,11 +39,11 @@ class OfftopicClient {
         }
     }
 
-    public void setOnMessageCallback(Closure c) {
+    void setOnMessageCallback(Closure c) {
         this.messageCallback = c
     }
 
-    public void startSubscribers() {
+    void startSubscribers() {
         this.subscribers.each { subscriber ->
             Thread runner = new Thread({
                 subscriber.connect()
@@ -55,20 +55,21 @@ class OfftopicClient {
         }
     }
 
-    public void shutdown() {
+    void shutdown() {
         this.subscribers.each { subscriber ->
             subscriber.shutdown()
         }
     }
 
-    public ArrayList<String> topicsFrom(String topicsPattern) {
-        ArrayList<String> topics = new ArrayList<String>()
+    List <String> topicsFrom(String topicsPattern) {
+        List<String> topics = []
         topicsPattern.split("\\+").each { topic ->
             if (topic.length() == 0) {
                 return
             }
             if (topic.indexOf('*') >= 0) {
-                topics.addAll(lookupTopicsFor(topicsPattern))
+                /* in this case our `topic` is actually a topic pattern */
+                topics.addAll(lookupTopicsFor(topic))
             }
             else {
                 topics.add(topic)
@@ -77,8 +78,8 @@ class OfftopicClient {
         return topics
     }
 
-    private ArrayList<String> lookupTopicsFor(String topicPattern) {
-        ArrayList<String> topics = new ArrayList<String>()
+    private List<String> lookupTopicsFor(String topicPattern) {
+        List<String> topics = []
         KafkaService.fetchTopics().each { topic ->
             if (topic =~ topicPattern) {
                 topics.add(topic)
