@@ -15,9 +15,10 @@ ratpack {
     bindings {
         offtopic.Configuration.instance.loadDefaults()
         offtopic.curator.CuratorPool.prepare(Configuration.instance.zookeepers)
-        add new HandlebarsModule()
-        add new JacksonModule()
+        module HandlebarsModule
+        module JacksonModule
     }
+
     handlers {
         get {
             render handlebarsTemplate('index.html')
@@ -91,7 +92,7 @@ ratpack {
             }
         }
 
-        assets 'public'
+        fileSystem "public", { f -> f.files() }
     }
 }
 
