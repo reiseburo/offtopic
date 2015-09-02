@@ -23,7 +23,8 @@ function watchTopic(name) {
                     partition: data.partition,
                     offset: data.offset,
                     raw: data.raw,
-                    b64: data.b64
+                    b64: data.b64,
+                    timestamp: moment(data.tstamp, 'x').format('MMM Do YYYY, H:mm:ss')
                 }));
 
                 $("#" + el_id).click(function(ev) {

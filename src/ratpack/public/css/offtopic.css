@@ -22,3 +22,7 @@ body {
     font-family: monospace;
     font-size: 0.7em;
 }
+
+.message-timestamp {
+    float: right;
+}

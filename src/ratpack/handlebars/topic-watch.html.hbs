@@ -36,6 +36,7 @@
 {{=<% %>=}}
 <script id="message-display-template" type="text/x-handlebars-template">
     <div id="{{message_id}}" class="list-group-item message-container">
+        <div class="message-timestamp">{{timestamp}}</div>
         <code>{{topic}}:{{partition}}</code>
         <span class="offset">(offset: {{offset}})</span>
         <pre class="pre-scrollable message-raw">{{raw}}</pre>
@@ -47,6 +48,7 @@
 </script>
 <%={{ }}=%>
 
+<script src="/js/moment.min.js"></script>
 <script src="/js/ws.js"></script>
 <script type="text/javascript">
     watchTopic("{{name}}");
