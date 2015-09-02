@@ -14,7 +14,7 @@ import offtopic.OfftopicClient
 ratpack {
     bindings {
         offtopic.Configuration.instance.loadDefaults()
-        offtopic.curator.CuratorPool.prepare(Configuration.instance.zookeepers)
+        offtopic.curator.CuratorPool.prepare(System.getProperty('zookeepers') ?: Configuration.instance.zookeepers)
         module HandlebarsModule
         module JacksonModule
     }
