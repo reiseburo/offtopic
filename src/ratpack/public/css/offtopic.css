@@ -15,6 +15,14 @@ body {
     margin-right: 3px;
 }
 
+.wallboard-title {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 3em;
+    font-weight: bold;
+    text-align: center;
+}
+
 .message-raw {
 }
 

@@ -43,7 +43,7 @@ ratpack {
         }
 
         get('topics/:name/watch') {
-            render handlebarsTemplate('topic-watch.html', name: pathTokens.name)
+            render handlebarsTemplate('topic-watch.html', name: pathTokens.name, title: request.queryParams.title)
         }
 
         get('topics/:name/websocket') { ctx ->
