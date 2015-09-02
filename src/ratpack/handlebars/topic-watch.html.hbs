@@ -29,6 +29,7 @@
     </div>
 
     <div class="wallboard-title">{{title}}</div>
+    <div class="topics-watched"></div>
 
     <div class="messages-list-container" id="messages">
     </div>
@@ -74,6 +75,11 @@
         $(e.target).toggle();
         $('#stop').toggle();
         watchTopic("{{name}}");
+    });
+
+    // Add our labels into the view
+    $("{{name}}".split('+')).each(function (idx, value) {
+        $('.topics-watched').append($("<span class='label label-default'>" + value + '</span>'))
     });
 </script>
 

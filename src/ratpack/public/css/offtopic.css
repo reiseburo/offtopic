@@ -38,3 +38,7 @@ body {
 .message-show-b64 {
     font-size: 0.7em;
 }
+
+.topics-watched .label {
+    margin-right: 3px;
+}
