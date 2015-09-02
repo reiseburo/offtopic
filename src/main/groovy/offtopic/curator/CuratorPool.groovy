@@ -21,7 +21,7 @@ class CuratorPool extends GenericObjectPool<CuratorClient>{
     }
 
     public static void withCurator(Closure closure) {
-        def curator = null
+        CuratorClient curator = null
         try {
             curator = CuratorPool.instance.borrowObject()
             closure.call(curator.client)

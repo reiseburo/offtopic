@@ -1,5 +1,9 @@
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import ratpack.handlebars.HandlebarsModule
 import ratpack.jackson.JacksonModule
+
+import java.util.logging.Level
 
 import static ratpack.handlebars.Template.handlebarsTemplate
 import static ratpack.jackson.Jackson.json
@@ -7,7 +11,6 @@ import static ratpack.groovy.Groovy.*
 import static ratpack.websocket.WebSockets.websocket
 
 import offtopic.KafkaService
-import offtopic.KafkaSubscriber
 import offtopic.Configuration
 import offtopic.OfftopicClient
 
@@ -26,7 +29,6 @@ ratpack {
 
         get('topics') {
             topics = KafkaService.fetchTopics()
-            println topics
 
             if (request.headers.get('Content-Type') == 'application/json') {
                 render(json(topics))
@@ -45,19 +47,20 @@ ratpack {
         }
 
         get('topics/:name/websocket') { ctx ->
-            def client = new OfftopicClient(Configuration.instance)
-            def grepper = null
+            OfftopicClient client = new OfftopicClient(Configuration.instance)
+            String grepper = null
 
             websocket(ctx) { ws ->
-                println "Connected ${ws}"
+                Logger log = LoggerFactory.getLogger('WebSocket')
+                log.info('Connected client {}', ws)
                 client.onMessageCallback = { m ->
-                    println "called back with ${m} (grep: ${grepper})"
+                    log.debug('Callback with {] (grep: {})', m, grepper)
                     if ((grepper == null) || (m.raw =~ grepper)) {
                         ws.send(groovy.json.JsonOutput.toJson(m))
                     }
                 }
                 client.createSubscribersFor(pathTokens.name)
-                print "subscribers created for ${pathTokens.name}"
+                log.info('Subscribers created for {}', pathTokens.name)
                 client.startSubscribers()
             } connect { sock ->
                 sock.onClose {
@@ -77,18 +80,6 @@ ratpack {
             }
             else {
                 render handlebarsTemplate('brokers.html', brokers: brokers)
-            }
-        }
-
-        /* set up a demo/dummy websocket listener */
-        get("ws") { context ->
-            websocket(context) { ws ->
-            } connect {
-                it.onClose {
-                    println "closing"
-                } onMessage {
-                    "client sent me ${it}"
-                }
             }
         }
 

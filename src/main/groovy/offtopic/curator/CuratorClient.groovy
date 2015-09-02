@@ -1,10 +1,11 @@
 package offtopic.curator
 
+import org.apache.curator.framework.CuratorFramework
 import org.apache.curator.retry.ExponentialBackoffRetry
 import org.apache.curator.framework.CuratorFrameworkFactory
 
 class CuratorClient {
-    def client = null
+    CuratorFramework client
 
     public CuratorClient(String zookeepers) {
         if (zookeepers?.length() <= 0) {
