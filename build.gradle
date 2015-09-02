@@ -13,6 +13,7 @@ buildscript {
 }
 
 apply plugin: 'groovy'
+apply plugin: 'idea'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'io.ratpack.ratpack-groovy'
 ////////////////////////////////////////////////////////////////////////////////
@@ -85,4 +86,12 @@ bintray {
 bintrayUpload.dependsOn assemble
 
 ////////////////////////////////////////////////////////////////////////////////
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
+
 // vim: ft=groovy
