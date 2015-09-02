@@ -1,3 +1,5 @@
+var messageDisplayTemplate = Handlebars.compile($('#message-display-template').html());
+
 function watchTopic(name) {
     if (!window.WebSocket) {
         alert("This won't work in your browser. Try Chrome or a gooder version of Safari.");
@@ -15,13 +17,15 @@ function watchTopic(name) {
                 var data = $.parseJSON(event.data);
                 var messages = $('#messages');
                 var el_id = Math.floor(Math.random() * 1000000);
-                var el = ["<div id='" + el_id + "' class='list-group-item'>",
-                          "<code>" + data.topic + ":" + data.partition + "</code>",
-                          "<span class='offset'>(offset: " + data.offset + ")</span>",
-                          '<pre class="pre-scrollable message-raw">' + data.raw + '</pre>',
-                          "<br/><div class='message-b64' id='" +  el_id + "_b64'",
-                          "style='display:none;'><pre>" + data.b64 + "</pre></div>"].join("\n");
-                messages.prepend(el);
+                messages.prepend(messageDisplayTemplate({
+                    message_id: el_id,
+                    topic: data.topic,
+                    partition: data.partition,
+                    offset: data.offset,
+                    raw: data.raw,
+                    b64: data.b64
+                }));
+
                 $("#" + el_id).click(function(ev) {
                     $("#"+el_id+'_b64').toggle();
                 });
