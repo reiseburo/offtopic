@@ -26,3 +26,40 @@ image:http://strongspace.com/rtyler/public/offtopic-0.2.0-topicwatch.png['Watchi
   watch at once (link:http://strongspace.com/rtyler/public/offtopic-usemultipass-20141125.png[screenshot of multipass in action])
 * **Binary data support**: Clicking on a message row in the "watch" view will
   drop down a base64-encoded version of the message data
+
+== Usage Notes
+
+As of `0.3.0` Offtopic is available as a wholly self-contained executable `.jar`
+file which means running the command below will start Offtopic on link:http://localhost:5050/[localhost:5050]:
+
+    ✗ java -jar offtopic*-all.jar
+    log4j:WARN No appenders could be found for logger (io.netty.util.internal.logging.InternalLoggerFactory).
+    log4j:WARN Please initialize the log4j system properly.
+    log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+
+
+By default Offtopic looks for a Zookeeper on `localhost:2181`, if you wish to
+connect it to another Zookeeper ensemble, use the `zookeeper` Java property,
+e.g.:
+
+    ✗ java -Dzookeepers=example.com:2181 -jar offtopic*-all.jar
+    log4j:WARN No appenders could be found for logger (io.netty.util.internal.logging.InternalLoggerFactory).
+    log4j:WARN Please initialize the log4j system properly.
+    log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+
+
+
+=== Topic Watch Wildcards
+
+A somewhat "hidden" feature is the ability to use regular expression when
+watching topics. A normal topic watch URL might be
+`localhost:5050/topics/foo/watch`. If there are a number of topics which are
+all prefixed with `foo` you can watch them all at the same time with:
+link:http://localhost:5050/topics/foo*/watch[localhost:5050/topics/foo*/watch].
+
+The regular expressions that
+link:http://www.groovy-lang.org/Regular+Expressions[Groovy supports] should all
+be supported in the URL space.
+
+
+
