@@ -1,6 +1,6 @@
 = Offtopic
 
-image:https://travis-ci.org/rtyler/offtopic.svg?branch=master["Build Status", link="https://travis-ci.org/rtyler/offtopic"]
+image:https://travis-ci.org/reiseburo/offtopic.svg?branch=master["Build Status", link="https://travis-ci.org/reiseburo/offtopic"]
 image:https://api.bintray.com/packages/rtyler/maven/offtopic/images/download.svg[link="https://bintray.com/rtyler/maven/offtopic/_latestVersion"]
 
 
