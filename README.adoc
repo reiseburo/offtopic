@@ -10,7 +10,7 @@ for inspecting and consuming events from link:http://kafka.apache.org[Apache Kaf
 The primary goal of this tool is to give you real-time insight into a running
 Kafka cluster.
 
-image:http://strongspace.com/rtyler/public/offtopic-secevents-20141125.png['Watching topics in action']
+image:http://strongspace.com/rtyler/public/offtopic-0.2.0-topicwatch.png['Watching topics in action']
 
 == System Requirements
 
