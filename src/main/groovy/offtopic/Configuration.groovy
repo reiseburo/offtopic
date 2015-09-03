@@ -8,6 +8,7 @@ import groovy.util.logging.Slf4j
 @Singleton
 @Slf4j
 class Configuration extends Properties {
+    static final String DEFAULT_ZOOKEEPERS = 'localhost:2181'
     /**
      * Load defaults, starting in the current working directory, searching for
      * 'offtopic.properties'

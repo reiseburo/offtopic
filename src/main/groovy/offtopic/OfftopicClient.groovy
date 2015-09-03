@@ -31,7 +31,7 @@ class OfftopicClient {
                 return
             }
 
-            KafkaSubscriber subscriber =  new KafkaSubscriber(System.getProperty('zookeepers') ?: Configuration.instance.zookeepers,
+            KafkaSubscriber subscriber =  new KafkaSubscriber(System.getProperty('zookeepers') ?: Configuration.DEFAULT_ZOOKEEPERS,
                                                                 topic,
                                                                 "offtopic-${clientId}")
             subscriber.callback = this.messageCallback
